@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:login_app_lecture_1/resources/values/app_colors.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import 'congratulations_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -14,6 +17,16 @@ class _LoginScreenState extends State<LoginScreen> {
   final _passController = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
+
+  bool _checkValue = false;
+
+  late SharedPreferences _sharedPreferences;
+
+  @override
+  void initState() {
+    super.initState();
+    _getCredential();
+  }
 
   @override
   void dispose() {
@@ -45,6 +58,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 padding:
                     const EdgeInsets.symmetric(horizontal: 50, vertical: 5),
                 child: TextFormField(
+                  controller: _nameController,
                   validator: usernameValidator,
                   decoration: const InputDecoration(
                       prefixIcon: Icon(Icons.person), hintText: 'Username'),
@@ -77,9 +91,15 @@ class _LoginScreenState extends State<LoginScreen> {
                 padding: const EdgeInsets.symmetric(horizontal: 50),
                 child: Row(
                   children: [
-                    const Checkbox(
-                      value: true,
-                      onChanged: (null),
+                    Checkbox(
+                      value: _checkValue,
+                      onChanged: (bool? value) {
+                        setState(() {
+                          _setCredential();
+
+                          _checkValue = value!;
+                        });
+                      },
                     ),
                     Text(
                       'Remember me',
@@ -134,8 +154,35 @@ class _LoginScreenState extends State<LoginScreen> {
   void _submitForm() {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
+      Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+              builder: (context) => const CongratulationsScreen()));
+      if (_checkValue) {}
     } else {
-      _showMassage(message: 'Username or login not correct');
+      _showMassage(message: 'Username or login is not correct');
     }
+  }
+
+  _setCredential() async {
+    _sharedPreferences = await SharedPreferences.getInstance();
+    _sharedPreferences.setBool("check", _checkValue);
+    _sharedPreferences.setString("username", _nameController.text);
+    _sharedPreferences.setString("password", _passController.text);
+  }
+
+  _getCredential() async {
+    _sharedPreferences = await SharedPreferences.getInstance();
+    setState(() {
+      _checkValue = _sharedPreferences.getBool("check") ?? false;
+      if (_checkValue) {
+        _nameController.text = _sharedPreferences.getString("username")!;
+        _passController.text = _sharedPreferences.getString("password")!;
+        _submitForm();
+      } else {
+        _nameController.clear();
+        _passController.clear();
+      }
+    });
   }
 }
