@@ -12,4 +12,4 @@ Platform conventions: On some platforms, such as iOS, splash screens are expecte
 
 Also, there is a logging form with validation and the ability to memorize the user. When you re-login, if you previously checked the "remember me" box, the login and password data entered in the form fields will be saved on the device using the [Shared preference library](https://pub.dev/packages/shared_preferences).
 
-![Gif example](https://gifyu.com/image/SIkOb)
+[![example gif](https://s10.gifyu.com/images/VDEO-BEZ-NAZVI--ZROBLENO-U-Clipchamp.gif)](https://gifyu.com/image/SIkOb)
