@@ -52,7 +52,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               Text(
                 'Welcome Back',
-                style: Theme.of(context).textTheme.headline1,
+                style: Theme.of(context).textTheme.displayLarge,
               ),
               Padding(
                 padding:
@@ -103,7 +103,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     Text(
                       'Remember me',
-                      style: Theme.of(context).textTheme.bodyText1,
+                      style: Theme.of(context).textTheme.bodyLarge,
                     )
                   ],
                 ),
@@ -147,7 +147,7 @@ class _LoginScreenState extends State<LoginScreen> {
         backgroundColor: Colors.red,
         content: Text(
           message,
-          style: Theme.of(context).textTheme.bodyText2,
+          style: Theme.of(context).textTheme.bodyMedium,
         )));
   }
 
